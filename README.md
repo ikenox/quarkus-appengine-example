@@ -1,18 +1,42 @@
-# Quarku on Google App Engine Java 11
+# Quarkus on Google App Engine Java 11
 
-## Native
+## Requirements
 
-- Download GraalVM and set $GRAALVM_HOME
-- set GRAALVM_HOME ~/Development/graalvm-ce-19.2.0/Contents/Home
-- set -x PATH ~/Development/graalvm-ce-19.2.0/Contents/Home/bin $PATH
-- gu install native-image
-- run on mac
-    - ./mvnw package -Pnative
-    - ./target/quarkusexample-1.0-SNAPSHOT-runner
-- build native image for GAE/Java11
-    - ./mvnw package -Pnative -Dnative-image.docker-build=true
-    - gcloud app deploy app-native.yaml --project=ikenox-sunrise --version=native-image
+- Docker
+- Setup GraalVM (If you want to compile to native-image)
+    - See: https://quarkus.io/guides/building-native-image-guide
+    - After GraalVM installation, you also need to install native-image tool by `gu install native-image`
+        - You may need to set `PATH` to `$GRAALVM_HOME/bin`
 
-## Normal (run on JVM)
+## Run on local
+
+- JVM
+
+    ```sh
+    ./mvnw package
+    ./target/quarkus-appengine-example-1.0-SNAPSHOT-runner.jar
+    ```
+
+- Native image
+
+    ```sh
+    ./mvnw package -Pnative
+    ./target/quarkus-appengine-example-1.0-SNAPSHOT-runner
+    ```
+
+## Deploy to App Engine Java 11
+
+### Normal (run on JVM)
+
+```sh
 ./mvnw package
-- gcloud app deploy app-jvm.yaml --project=ikenox-sunrise --version=jvm
+gcloud app deploy app-jvm.yaml --project=ikenox-sunrise --version=jvm
+```
+
+### Native image
+    
+```sh
+./mvnw package -Pnative -Dnative-image.docker-build=true
+gcloud app deploy app-native.yaml --project=ikenox-sunrise --version=native-image
+```
+
