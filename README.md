@@ -42,3 +42,15 @@
     gcloud app deploy app-native.yaml --project=your-gcp-project-id --version=native-image
     ```
 
+- Rust
+
+    ```sh
+    docker run \
+         --rm \
+         --interactive \
+         --tty \
+         --volume (pwd):/opt/volume \
+         --workdir /opt/volume \
+         amd64/rust cargo build --release
+    gcloud app deploy app-rust.yaml --project=your-gcp-project-id --version=rust-sample
+    ```
